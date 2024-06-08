@@ -1,27 +1,40 @@
-import React, { useEffect, useState } from 'react';
-import { getCinemaData } from './apiService';
+import React, { useState } from 'react';
+import SidePanel from './components/SidePanel';
+import TopPanel from './components/TopPanel';
+import Repertoire from './components/Repertoire';
+import MyReservation from './components/MyReservation';
+import './App.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 function App() {
-  const [data, setData] = useState(null);
+  const [isPanelOpen, setIsPanelOpen] = useState(false);
+  const [selectedTab, setSelectedTab] = useState('repertoire');
 
-  useEffect(() => {
-      const fetchData = async () => {
-          try {
-              const result = await getCinemaData();
-              setData(result);
-          } catch (error) {
-              console.error('Error fetching data', error);
-          }
-      };
+  const togglePanel = () => {
+    setIsPanelOpen(!isPanelOpen);
+  };
 
-      fetchData();
-  }, []);
+  const handleTabChange = (tabName) => {
+    setSelectedTab(tabName);
+  };
 
   return (
-      <div className="App">
-          <h1>Example Data</h1>
-          {data ? <pre>{JSON.stringify(data, null, 2)}</pre> : <p>Loading...</p>}
+    <div className="App">
+      <TopPanel /> {/* Render the TopPanel component */}
+      <button onClick={togglePanel}>
+        {isPanelOpen ? (
+          <i className="bi bi-dash-lg"></i>
+        ) : (
+          <i className="bi bi-plus-lg"></i>
+        )}
+      </button>
+      {isPanelOpen && <SidePanel onTabChange={handleTabChange} />}
+      <div className={`content ${isPanelOpen ? "expanded" : ""}`}>
+        {selectedTab === "repertoire" && <Repertoire />}
+        {selectedTab === "myReservation" && <MyReservation />}
       </div>
+    </div>
   );
 }
+
 export default App;
