@@ -1,0 +1,58 @@
+.showing-seats {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.seats-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; 
+    align-items: center;
+}
+
+.seat {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    border: 2px solid #ccc;
+    margin: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.reserved {
+    background-color: red;
+    color: white;
+}
+
+.available {
+    background-color: green;
+    color: white;
+}
+
+.seat-number {
+    color: inherit;
+}
+.seat-number {
+    position: relative;
+    z-index: 1;
+}
+
+.screen-container {
+    width: 100%;
+    text-align: center;
+    border: 2px solid black; 
+    margin-top: 10px; 
+    padding: 10px; 
+    margin: 5px;
+}
+
+.screen {
+    display: inline-block;
+}

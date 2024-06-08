@@ -24,7 +24,7 @@
     background-color: #ddd;
   }
 
-  button {
+  .side-panel-button {
     position: fixed;
     top: var(--side-panel-top);
     left: 10px;

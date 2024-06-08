@@ -3,11 +3,13 @@ import '../styles/Repertoire.css';
 import { getShowingData } from '../services/cinemaService';
 import { getImageData } from '../services/imageService';
 import { formatDate } from '../utils/dateUtils';
+import { useNavigate } from 'react-router-dom';
 
 
 const Repertoire = () => {
   const [showings, setShowings] = useState([]);
   const [images, setImages] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,15 +37,30 @@ const Repertoire = () => {
     };
   }, []);
 
+  const handleItemClick = (showing) => {
+    navigate(`/showingSeats/${showing.id}`, { state: { showing } });
+  };
+
+
 
   return (
     <div>
       <h1>Showings</h1>
       <ul>
         {showings.map((showing, index) => (
-          <li key={index} className="showing-item">
+          <li
+            key={index}
+            className="showing-item"
+            onClick={() => handleItemClick(showing)}
+          >
             <div>
-              {images[showing.id] && <img src={images[showing.id]} alt={showing.film.title} className="showing-image" />}
+              {images[showing.id] && (
+                <img
+                  src={images[showing.id]}
+                  alt={showing.film.title}
+                  className="showing-image"
+                />
+              )}
             </div>
             <div className="showing-details">
               <h2>{showing.film.title}</h2>
@@ -51,7 +68,7 @@ const Repertoire = () => {
                 <strong>Description:</strong> {showing.film.description}
               </p>
               <p>
-              <strong>Date of Play:</strong> {formatDate(showing.date)}
+                <strong>Date of Play:</strong> {formatDate(showing.date)}
               </p>
             </div>
           </li>
