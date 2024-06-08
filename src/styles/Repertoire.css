@@ -1,3 +1,21 @@
 .repertoire {
     position: fixed;
-  }
+}
+
+.showing-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
+}
+
+.showing-image {
+  width: 100px;
+  height: auto;
+  margin-right: 20px;
+}
+
+.showing-details {
+  flex: 1;
+}
