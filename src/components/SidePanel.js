@@ -1,9 +1,9 @@
-import React from 'react';
-import './../styles/SidePanel.css';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import "./../styles/SidePanel.css";
+import { useNavigate } from "react-router-dom";
 
 function SidePanel({ onTabChange }) {
-const navigate = useNavigate();
+  const navigate = useNavigate();
   return (
     <div className="side-panel">
       <div className="logo">
@@ -11,19 +11,22 @@ const navigate = useNavigate();
       </div>
       <ul>
         <li>
-          <div className="side-options" onClick={() => navigate('/repertoire')}>
+          <div className="side-options" onClick={() => navigate("/repertoire")}>
             <i className="bi bi-camera-reels"></i>
             <span>Repertoire</span>
           </div>
         </li>
         <li>
-          <div className="side-options" onClick={() => navigate('/myReservation')}>
+          <div
+            className="side-options"
+            onClick={() => navigate("/myReservation")}
+          >
             <i className="bi bi-journal-bookmark"></i>
             <span>My reservation</span>
           </div>
         </li>
         <li>
-          <div className="side-options" onClick={() => navigate('/login')}>
+          <div className="side-options" onClick={() => navigate("/login")}>
             <i className="bi bi-key-fill"></i>
             <span>Login</span>
           </div>

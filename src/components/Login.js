@@ -16,13 +16,12 @@ function Login() {
     console.log(authHeader);
     try {
       const response = await loginService.login(authHeader);
-      console.log(response.status)
+      console.log(response.status);
       if (response.status === 200) {
         user.setHeader(authHeader);
         console.log("Login successful!");
         setIsAuthenticated(user.getHeader());
-      } else
-      {
+      } else {
         console.log("huh?");
       }
     } catch (error) {

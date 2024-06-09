@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import '../styles/Repertoire.css';
-import { getShowingData } from '../services/cinemaService';
-import { getImageData } from '../services/imageService';
-import { formatDate } from '../utils/dateUtils';
-import { useNavigate } from 'react-router-dom';
-
+import React, { useState, useEffect } from "react";
+import "../styles/Repertoire.css";
+import seatService from "../services/cinemaService";
+import { getImageData } from "../services/imageService";
+import { formatDate } from "../utils/dateUtils";
+import { useNavigate } from "react-router-dom";
 
 const Repertoire = () => {
   const [showings, setShowings] = useState([]);
@@ -14,11 +13,13 @@ const Repertoire = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const cinemaData = await getShowingData();
+        const cinemaData = await seatService.getShowingData();
         setShowings(cinemaData);
 
         const imagePromises = cinemaData.map(async (showing) => {
-          const imageUrl = await getImageData({ ImageName: showing.film.imageName });
+          const imageUrl = await getImageData({
+            ImageName: showing.film.imageName,
+          });
           return { id: showing.id, imageUrl };
         });
 
@@ -33,15 +34,12 @@ const Repertoire = () => {
       }
     };
     fetchData();
-    return () => {
-    };
+    return () => {};
   }, []);
 
   const handleItemClick = (showing) => {
     navigate(`/showingSeats/${showing.id}`, { state: { showing } });
   };
-
-
 
   return (
     <div>
@@ -76,6 +74,6 @@ const Repertoire = () => {
       </ul>
     </div>
   );
-}
+};
 
-export default Repertoire
+export default Repertoire;

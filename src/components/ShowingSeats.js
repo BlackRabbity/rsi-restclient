@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/ShowingSeats.css";
 import { useLocation } from "react-router-dom";
 import SeatService from "../services/seatService";
@@ -6,9 +6,9 @@ import SeatService from "../services/seatService";
 function ShowingSeats() {
   const location = useLocation();
   const showing = location.state?.showing;
-  const maxSeatsPerRow = Math.max(
-    ...showing.room.seats.map((seat) => seat.row + 1)
-  );
+  const [seats, setSeats] = useState(showing?.room.seats || []);
+  const [rows, setRows] = useState([]);
+  const maxSeatsPerRow = Math.max(...seats.map((seat) => seat.row + 1));
 
   const chunkArray = (array, size) => {
     const chunkedArray = [];
@@ -18,12 +18,16 @@ function ShowingSeats() {
     return chunkedArray;
   };
 
-  const rows = chunkArray(showing.room.seats, maxSeatsPerRow);
+  useEffect(() => {
+    setRows(chunkArray(seats, maxSeatsPerRow));
+  }, [seats, maxSeatsPerRow]);
 
   const reserveSeat = async (showingId, seatNumber) => {
     try {
       await SeatService.reserveSeat(showingId, seatNumber);
-      console.log("Seat reserved successfully!");
+      console.log("Seat reserved|unreserved");
+      const updatedSeats = await SeatService.getSeats(showingId);
+      setSeats(updatedSeats);
     } catch (error) {
       console.error("Error reserving seat:", error);
     }
@@ -35,15 +39,15 @@ function ShowingSeats() {
       <div className="seats-container">
         {Array.from({ length: maxSeatsPerRow }, (_, i) => (
           <div key={i} className="seat-column">
-            {rows.map((row, rowIndex) => (
+            {rows.map((seats, index) => (
               <span
-                key={rowIndex}
+                key={index}
                 className={`seat ${
-                  row[i]?.reservation ? "reserved" : "available"
+                  seats[i]?.reservation ? "reserved" : "available"
                 }`}
-                onClick={() => reserveSeat(showing.id, row[i]?.seatNumber)}
+                onClick={() => reserveSeat(showing.id, seats[i]?.seatNumber)}
               >
-                <span className="seat-number">{row[i]?.seatNumber}</span>
+                <span className="seat-number">{seats[i]?.seatNumber}</span>
               </span>
             ))}
           </div>

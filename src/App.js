@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import SidePanel from './components/SidePanel';
-import TopPanel from './components/TopPanel';
-import './App.css';
-import 'bootstrap-icons/font/bootstrap-icons.css';
-import { BrowserRouter as Router} from 'react-router-dom'; 
-import AppRoutes from './routes';
+import React, { useState } from "react";
+import SidePanel from "./components/SidePanel";
+import TopPanel from "./components/TopPanel";
+import "./App.css";
+import "bootstrap-icons/font/bootstrap-icons.css";
+import { BrowserRouter as Router } from "react-router-dom";
+import AppRoutes from "./routes";
 
 function App() {
   const [isPanelOpen, setIsPanelOpen] = useState(false);
@@ -12,7 +12,7 @@ function App() {
   const togglePanel = () => {
     setIsPanelOpen(!isPanelOpen);
   };
-  
+
   return (
     <Router>
       <div className="App">
@@ -26,7 +26,7 @@ function App() {
         </button>
         {isPanelOpen && <SidePanel />}
         <div className={`content ${isPanelOpen ? "expanded" : ""}`}>
-        <AppRoutes />
+          <AppRoutes />
         </div>
       </div>
     </Router>
