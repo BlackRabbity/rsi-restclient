@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../styles/Repertoire.css";
-import seatService from "../services/cinemaService";
+import cinemaService from "../services/cinemaService";
 import { getImageData } from "../services/imageService";
 import { formatDate } from "../utils/dateUtils";
 import { useNavigate } from "react-router-dom";
@@ -13,7 +13,7 @@ const Repertoire = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const cinemaData = await seatService.getShowingData();
+        const cinemaData = await cinemaService.getShowingData();
         setShowings(cinemaData);
 
         const imagePromises = cinemaData.map(async (showing) => {

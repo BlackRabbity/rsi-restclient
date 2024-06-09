@@ -18,15 +18,11 @@ const SeatService = {
     const user = new userServiceSingleton();
     const authHeader = user.getHeader();
     try {
-      const response = await axios.get(
-        `${API_URL}/api/Showings/my`,
-        {},
-        {
-          headers: {
-            Authorization: authHeader,
-          },
-        }
-      );
+      const response = await axios.get(`${API_URL}/api/showings/my`, {
+        headers: {
+          Authorization: authHeader,
+        },
+      });
       return response.data;
     } catch (error) {
       console.error("Error fetching data", error);
@@ -40,14 +36,19 @@ const SeatService = {
     try {
       const response = await axios.get(
         `${API_URL}/api/Showings/generatePdf`,
-        {},
         {
+          responseType: 'blob',
           headers: {
             Authorization: authHeader,
           },
         }
       );
-      return response.data;
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'reservations.pdf');
+      document.body.appendChild(link);
+      link.click();
     } catch (error) {
       console.error("Error fetching data", error);
       throw error;
