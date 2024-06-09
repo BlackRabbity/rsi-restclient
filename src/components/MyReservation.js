@@ -3,6 +3,7 @@ import "../styles/MyReservation.css";
 import CinemaService from "../services/cinemaService";
 import { getImageData } from "../services/imageService";
 import { formatDate } from "../utils/dateUtils";
+import SeatService from "../services/seatService";
 
 function MyReservation() {
   const [showings, setShowings] = useState([]);
@@ -13,7 +14,6 @@ function MyReservation() {
       try {
         const cinemaData = await CinemaService.getMyReservationData();
         setShowings(cinemaData);
-
         const imagePromises = cinemaData.map(async (showing) => {
           const imageUrl = await getImageData({
             ImageName: showing.film.imageName,
@@ -35,8 +35,20 @@ function MyReservation() {
     return () => {};
   }, []);
 
-  const handleItemClick = (showing) => {
-    console.log("click :)");
+  const handleItemClick = async (showing, seat) => {
+    const newSeat = prompt("Please enter your new seat number:");
+    const newSeatNumber = parseInt(newSeat, 10);
+    if (newSeat) {
+      try {
+        await SeatService.reserveSeat(showing.id, newSeatNumber);
+        await SeatService.reserveSeat(showing.id, seat.seatNumber);
+        const cinemaData = await CinemaService.getMyReservationData();
+        setShowings(cinemaData);
+        console.log(`Seat number unreserved ${seat.seatNumber} and new seat number ${newSeatNumber} reserved successfully.`);
+      } catch (error) {
+        console.error("Error reserving seat:", error);
+      }
+    }
   };
 
   const handleButtonClick = async (showing) => {
@@ -77,7 +89,7 @@ function MyReservation() {
                     <div
                       key={seatIndex}
                       className="showing-seats-reserved"
-                      onClick={() => handleItemClick(showing)}
+                      onClick={() => handleItemClick(showing, seat)}
                     >
                       Seat {seat.seatNumber}
                     </div>

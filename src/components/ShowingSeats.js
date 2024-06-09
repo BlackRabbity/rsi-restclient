@@ -33,6 +33,28 @@ function ShowingSeats() {
     }
   };
 
+  const handleButtonClick = async (showing) => {
+    const seats = prompt("Please enter seats after the decimal point:");
+    if (!seats) {
+      return;
+    }
+    const seatsNumbers = seats.split(',').map(num => parseInt(num.trim(), 10));
+    const invalidSeats = seatsNumbers.filter(num => isNaN(num));
+    if (invalidSeats.length > 0) {
+      alert("Invalid seat numbers entered. Please enter valid numbers separated by commas.");
+      return;
+    }
+      try {
+        await SeatService.reserveMultipleSeats(showing.id, seatsNumbers);
+        console.log(`Multiply seats reserved successfully.`);
+        const updatedSeats = await SeatService.getSeats(showing.id);
+        setSeats(updatedSeats);
+      } catch (error) {
+        console.error("Error reserving seats:", error);
+      }
+  };
+
+  
   return (
     <div className="showing-seats">
       <h2>Showing seats for: {showing.film.title}</h2>
@@ -55,6 +77,9 @@ function ShowingSeats() {
         <div className="screen-container">
           <div className="screen">SCREEN</div>
         </div>
+        <button className="pdf-button" onClick={() => handleButtonClick(showing)}>
+            Reserve multi seats
+          </button>
       </div>
     </div>
   );
