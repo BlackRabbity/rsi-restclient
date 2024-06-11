@@ -8,7 +8,7 @@ export function configureAxiosWithCert(certPath) {
       const certData = new Uint8Array(certBuffer);
       console.log(certData, certPath);
 
-      axios.defaults.httpsAgent = new Window.https.Agent({ ca: certData });
+      axios.defaults.httpsAgent = new window.https.Agent({ ca: certData });
     })
     .catch(error => {
       console.error('Error fetching certificate:', error);
