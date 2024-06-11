@@ -7,12 +7,16 @@ const app = express();
 
 const ca = fs.readFileSync('../../public/certs/cert.cer');
 
+const cert = fs.readFileSync('../../public/certs/cert.crt');
+const key = fs.readFileSync('../../public/certs/cert.key');
+
 const httpsAgent = new https.Agent({
-  ca: ca,
+  cert: cert,
+  key: key,
 });
 
 app.use('/api', createProxyMiddleware({
-  target: 'https://192.168.65.9:7043',
+  target: 'https://10.0.0.15:7043',
   changeOrigin: true,
   agent: httpsAgent,
 }));
