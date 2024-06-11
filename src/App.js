@@ -14,9 +14,9 @@ function App() {
     setIsPanelOpen(!isPanelOpen);
   };
 
-  useEffect(() => {
-    configureAxiosWithCert('../public/certs/cert.cer');
-  }, []);
+  // useEffect(() => {
+  //   configureAxiosWithCert('../public/certs/cert.cer');
+  // }, []);
 
 
   return (
