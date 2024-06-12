@@ -1,7 +1,7 @@
 import axios from "axios";
 import userServiceSingleton from "./userService";
 
-const API_URL = "https://localhost:7043";
+const API_URL = "https://10.0.0.15:7043";
 
 const SeatService = {
   getShowingData: async () => {

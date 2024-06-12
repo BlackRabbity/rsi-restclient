@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SidePanel from "./components/SidePanel";
 import TopPanel from "./components/TopPanel";
 import "./App.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { BrowserRouter as Router } from "react-router-dom";
 import AppRoutes from "./routes";
+import { configureAxiosWithCert } from './utils/readCert';
 
 function App() {
   const [isPanelOpen, setIsPanelOpen] = useState(false);
@@ -12,6 +13,11 @@ function App() {
   const togglePanel = () => {
     setIsPanelOpen(!isPanelOpen);
   };
+
+  // useEffect(() => {
+  //   configureAxiosWithCert('../public/certs/cert.cer');
+  // }, []);
+
 
   return (
     <Router>
